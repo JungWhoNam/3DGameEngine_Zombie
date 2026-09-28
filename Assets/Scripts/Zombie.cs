@@ -22,6 +22,9 @@ public class Zombie : LivingEntity
     public float timeBetAttack = 0.5f; // 공격 간격
     private float lastAttackTime; // 마지막 공격 시점
 
+    public float detectDistance = 3f; // 추적을 시작할 거리
+    public float loseDistance = 5f;   // 추적을 중단할 거리
+
     // 추적할 대상이 존재하는지 알려주는 프로퍼티
     private bool hasTarget
     {
@@ -84,10 +87,22 @@ public class Zombie : LivingEntity
         {
             if (hasTarget)
             {
-                // 추적 대상 존재 : 경로를 갱신하고 AI 이동을 계속 진행
-                navMeshAgent.isStopped = false;
-                navMeshAgent.SetDestination(
-                    targetEntity.transform.position);
+                float distance = Vector3.Distance(
+                    transform.position, targetEntity.transform.position);
+
+                if (distance >= loseDistance)
+                {
+                    // 대상이 멀어지면 추적 해제 및 이동 중지
+                    targetEntity = null;
+                    navMeshAgent.isStopped = true;
+                }
+                else
+                {
+                    // 추적 중단 거리보다 가까우면 계속 추적
+                    // 경로를 갱신하고 AI 이동을 계속 진행
+                    navMeshAgent.isStopped = false;
+                    navMeshAgent.SetDestination(targetEntity.transform.position);
+                }
             }
             else
             {
