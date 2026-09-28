@@ -7,4 +7,6 @@ public class ZombieData : ScriptableObject {
     public float damage = 20f; // 공격력
     public float speed = 2f; // 이동 속도
     public Color skinColor = Color.white; // 피부색
+
+    public int score = 100; // 처치 시 획득할 점수 — 추가
 }

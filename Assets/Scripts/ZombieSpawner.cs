@@ -78,6 +78,6 @@ public class ZombieSpawner : MonoBehaviour
         // 사망한 좀비를 10 초 뒤에 파괴
         zombie.onDeath += () => Destroy(zombie.gameObject, 10f);
         // 좀비 사망시 점수 상승
-        zombie.onDeath += () => GameManager.instance.AddScore(100);
+        zombie.onDeath += () => GameManager.instance.AddScore(zombieData.score);
     }
 }
